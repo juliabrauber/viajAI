@@ -1,0 +1,55 @@
+<div
+  class="max-w-3xl mx-auto p-8 bg-gradient-to-br from-white/80 to-purple-50/60 backdrop-blur-lg shadow-xl rounded-3xl space-y-6"
+>
+  <h2 class="text-2xl font-extrabold text-purple-600 flex items-center gap-2">
+    ✈️ Planeje sua Viagem
+  </h2>
+
+  <form (ngSubmit)="generateTrip()" class="space-y-5">
+    <div class="flex flex-col">
+      <label class="text-gray-700 font-medium mb-2">Destino</label>
+      <input
+        type="text"
+        [(ngModel)]="trip.destination"
+        name="destination"
+        placeholder="Ex: Paris"
+        class="w-full p-4 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-purple-200 focus:border-purple-300 outline-none transition"
+      />
+    </div>
+
+    <div class="flex flex-col">
+      <label class="text-gray-700 font-medium mb-2">Duração (dias)</label>
+      <input
+        type="number"
+        [(ngModel)]="trip.days"
+        name="days"
+        placeholder="Ex: 7"
+        min="1"
+        class="w-full p-4 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-purple-200 focus:border-purple-300 outline-none transition"
+      />
+    </div>
+
+    <div class="flex flex-col">
+      <label class="text-gray-700 font-medium mb-2">Preferências</label>
+      <select
+        [(ngModel)]="trip.preferences"
+        name="preferences"
+        class="w-full p-4 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-purple-200 focus:border-purple-300 outline-none transition"
+      >
+        <option value="gastronomia">Gastronomia</option>
+        <option value="cultura">Cultura</option>
+        <option value="natureza">Segurança</option>
+        <option value="vida noturna">Vida Noturna</option>
+        <option value="compras">Compras</option>
+        <option value="compras">Outros</option>
+      </select>
+    </div>
+
+    <button
+      type="submit"
+      class="w-full py-4 bg-purple-400 text-gray-900 rounded-2xl font-bold text-lg hover:bg-purple-300 transition-all shadow-md hover:shadow-lg"
+    >
+      Gerar Roteiro 🚀
+    </button>
+  </form>
+</div>

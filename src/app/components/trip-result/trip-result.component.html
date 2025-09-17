@@ -1,0 +1,79 @@
+<div *ngIf="trip" class="max-w-4xl mx-auto mt-8 space-y-6">
+  <!-- Cabeçalho -->
+  <header class="flex justify-between items-center">
+    <h2 class="text-2xl font-bold text-purple-600 flex items-center gap-2">
+      🗺️ Roteiro para {{ trip.destination }}
+    </h2>
+    <button
+      (click)="goBack()"
+      class="text-purple-300 text-sm px-3 py-1 rounded-lg hover:bg-purple-100 hover:text-purple-600 transition"
+    >
+      Voltar
+    </button>
+  </header>
+
+  <!-- Área de "chat" -->
+  <section
+    class="bg-white p-4 rounded-2xl shadow-md border border-purple-100 h-[500px] overflow-y-auto flex flex-col gap-4"
+  >
+    <!-- Mock das mensagens iniciais -->
+    <div class="flex gap-2 items-start">
+      <span class="text-2xl">🤖</span>
+      <div
+        class="bg-purple-50 px-4 py-2 rounded-2xl shadow-sm text-gray-800 max-w-[75%]"
+      >
+        Olá! Montei um roteiro inicial de {{ trip.days }} dias para você em
+        <strong>{{ trip.destination }}</strong
+        >. Quer que eu detalhe mais alguma atividade?
+      </div>
+    </div>
+
+    <div
+      *ngFor="let day of trip.itinerary; let i = index"
+      class="flex gap-2 items-start"
+    >
+      <span class="text-2xl">📅</span>
+      <div
+        class="bg-purple-100 px-4 py-2 rounded-2xl shadow-sm text-purple-800 max-w-[75%]"
+      >
+        Dia {{ i + 1 }}: {{ day }}
+      </div>
+    </div>
+
+    <!-- Mock resposta do usuário -->
+    <div class="flex gap-2 justify-end items-start">
+      <div
+        class="bg-purple-600 text-white px-4 py-2 rounded-2xl shadow-sm max-w-[75%]"
+      >
+        Pode sugerir opções de restaurantes no primeiro dia?
+      </div>
+      <span class="text-2xl">🙋‍♀️</span>
+    </div>
+
+    <!-- Mock resposta do agente -->
+    <div class="flex gap-2 items-start">
+      <span class="text-2xl">🤖</span>
+      <div
+        class="bg-purple-50 px-4 py-2 rounded-2xl shadow-sm text-gray-800 max-w-[75%]"
+      >
+        Claro! Para o primeiro dia, recomendo experimentar a culinária local em
+        restaurantes como
+        <em>Exemplo A</em> e <em>Exemplo B</em>.
+      </div>
+    </div>
+  </section>
+
+  <!-- Input de interação -->
+  <footer class="flex items-center gap-2">
+    <input
+      type="text"
+      placeholder="Digite sua mensagem..."
+      class="flex-1 border rounded-2xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
+    />
+    <button
+      class="bg-purple-600 text-white px-4 py-2 rounded-2xl shadow hover:bg-purple-700 transition"
+    >
+      Enviar
+    </button>
+  </footer>
+</div>
