@@ -1,26 +1,37 @@
-<header
-  class="bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 text-gray-800 py-4 shadow-md"
->
+<header class="bg-white text-gray-900 py-4 shadow-md">
   <div class="max-w-6xl mx-auto flex justify-between items-center px-6">
-    <h1 class="text-3xl font-extrabold tracking-tight flex items-center gap-2">
-      🌍 TravelBuddy
-    </h1>
-    <nav class="flex items-center gap-6">
+    <!-- Logo / Marca + Sobre dentro de retângulo azul flexível -->
+    <div
+      class="flex-1 flex items-center bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 rounded-xl px-6 py-2 max-w-[70%]"
+    >
       <a
-        href="#"
-        class="text-gray-800 hover:text-pink-400 transition-colors duration-300 font-medium"
-        >Início</a
+        routerLink="/"
+        class="text-3xl font-extrabold tracking-tight text-white"
       >
+        🌍 ViajAI
+      </a>
       <a
-        href="#"
-        class="text-gray-800 hover:text-pink-400 transition-colors duration-300 font-medium"
-        >Sobre</a
+        routerLink="/sobre"
+        class="text-base font-normal text-white border-b-2 border-transparent hover:border-white transition-all duration-300 ml-6"
       >
-      <button
-        class="bg-pink-300 text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-pink-200 transition-colors duration-300"
+        Sobre
+      </a>
+    </div>
+
+    <!-- Itens do canto direito -->
+    <nav class="flex items-center gap-4 ml-4">
+      <a
+        routerLink="/criar-conta"
+        class="px-4 py-2 text-blue-500 bg-white rounded-lg font-medium border border-blue-500 hover:bg-blue-50 transition-all duration-300"
       >
-        Explorar
-      </button>
+        Criar Conta
+      </a>
+      <a
+        routerLink="/acessar-conta"
+        class="px-4 py-2 text-white bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 rounded-lg font-medium hover:brightness-110 transition-all duration-300"
+      >
+        Acessar Conta
+      </a>
     </nav>
   </div>
 </header>
