@@ -21,3 +21,21 @@ Interface web desenvolvida em **Angular** e **Tailwind CSS** para um gerador de 
 ```bash
 git clone https://github.com/juliabrauber/viajAI.git
 ```
+
+2. Instale as dependências:
+
+```bash
+npm install
+```
+
+3. Para buildar o projeto:
+
+```bash
+npm run build:ssr
+```
+
+4. Para servir o projeto:
+
+```bash
+npm run serve:ssr
+```
