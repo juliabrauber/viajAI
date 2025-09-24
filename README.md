@@ -19,5 +19,5 @@ Interface web desenvolvida em **Angular** e **Tailwind CSS** para um gerador de 
 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/juliabrauber/travelbuddy-app-front.git
+git clone https://github.com/juliabrauber/viajAI.git
 ```

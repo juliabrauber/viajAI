@@ -12,31 +12,69 @@ import { Router } from '@angular/router';
 })
 export class TripFormComponent {
   trip = {
+    user: '',
     destination: '',
     days: 1,
-    preferences: 'cultura',
+    preferencesList: [] as string[],
+    otherPreference: '',
   };
+
+  allPreferences = [
+    'Passeios e pontos turísticos',
+    'Restaurantes e gastronomia',
+    'Atividades culturais e eventos',
+    'Emergências e dicas de segurança',
+    'Outros',
+  ];
+
   constructor(private router: Router) {}
-  tripResult: any = null;
+
+  onCheckboxChange(event: any) {
+    const value = event.target.value;
+    if (event.target.checked) {
+      if (!this.trip.preferencesList.includes(value)) {
+        this.trip.preferencesList.push(value);
+      }
+    } else {
+      this.trip.preferencesList = this.trip.preferencesList.filter(
+        (pref) => pref !== value
+      );
+    }
+  }
 
   generateTrip() {
-    if (!this.trip.destination || this.trip.destination.trim().length === 0) {
+    if (!this.trip.destination || !this.trip.destination.trim()) {
       alert('Por favor, informe um destino válido ✈️');
+      return;
+    }
+
+    if (this.trip.preferencesList.length === 0) {
+      alert('Selecione pelo menos uma preferência ✨');
       return;
     }
 
     if (this.trip.days < 1) {
       this.trip.days = 1;
     }
-    this.tripResult = {
-      destination: this.trip.destination,
-      days: this.trip.days,
-      preferences: this.trip.preferences,
-      itinerary: Array.from(
-        { length: this.trip.days },
-        (_, i) => `Atividade do dia ${i + 1}`
-      ),
-    };
-    this.router.navigate(['/resultado'], { queryParams: this.trip });
+
+    let preferences = [...this.trip.preferencesList];
+    if (
+      preferences.includes('Outros') &&
+      this.trip.otherPreference &&
+      this.trip.otherPreference.trim()
+    ) {
+      preferences = preferences.map((p) =>
+        p === 'Outros' ? this.trip.otherPreference.trim() : p
+      );
+    }
+
+    this.router.navigate(['/resultado'], {
+      queryParams: {
+        user: this.trip.user,
+        destination: this.trip.destination,
+        days: this.trip.days,
+        preferences: preferences,
+      },
+    });
   }
 }
