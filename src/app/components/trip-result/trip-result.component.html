@@ -1,77 +1,59 @@
-<div *ngIf="trip" class="max-w-4xl mx-auto mt-8 space-y-6">
-  <!-- Cabeçalho -->
-  <header class="flex justify-between items-center">
-    <h2 class="text-2xl font-bold text-purple-600 flex items-center gap-2">
-      🗺️ Roteiro para {{ trip.destination }}
-    </h2>
-    <button
-      (click)="goBack()"
-      class="text-purple-300 text-sm px-3 py-1 rounded-lg hover:bg-purple-100 hover:text-purple-600 transition"
-    >
-      Voltar
-    </button>
-  </header>
-
-  <!-- Área de "chat" -->
-  <section
-    class="bg-white p-4 rounded-2xl shadow-md border border-purple-100 h-[500px] overflow-y-auto flex flex-col gap-4"
+<div
+  *ngIf="trip"
+  class="max-w-4xl mx-auto mt-4 flex flex-col h-[calc(100vh-10rem)] space-y-4"
+>
+  <!-- Título (sem header extra) -->
+  <h2
+    class="text-xl font-medium text-blue-800 flex items-center gap-2 px-2 py-1"
   >
-    <!-- Mock das mensagens iniciais -->
-    <div class="flex gap-2 items-start">
-      <span class="text-2xl">🤖</span>
-      <div
-        class="bg-purple-50 px-4 py-2 rounded-2xl shadow-sm text-gray-800 max-w-[75%]"
-      >
-        Olá! Montei um roteiro inicial de {{ trip.days }} dias para você em
-        <strong>{{ trip.destination }}</strong
-        >. Quer que eu detalhe mais alguma atividade?
-      </div>
-    </div>
+    🗺️ Planejamento para {{ trip.destination }}
+  </h2>
 
+  <!-- Área de chat rolável -->
+  <section
+    class="flex-1 flex flex-col gap-4 p-4 bg-transparent overflow-y-auto"
+  >
     <div
-      *ngFor="let day of trip.itinerary; let i = index"
+      *ngFor="let msg of messages"
       class="flex gap-2 items-start"
+      [ngClass]="{ 'justify-end': msg.role === 'user' }"
     >
-      <span class="text-2xl">📅</span>
+      <span class="text-2xl" *ngIf="msg.role === 'agent'">🤖</span>
       <div
-        class="bg-purple-100 px-4 py-2 rounded-2xl shadow-sm text-purple-800 max-w-[75%]"
+        [ngClass]="{
+          'bg-white/80 text-gray-900': msg.role === 'agent',
+          'bg-gradient-to-br from-blue-100/70 to-blue-50/60 text-blue-900':
+            msg.role === 'user'
+        }"
+        class="px-4 py-2 rounded-2xl shadow-sm max-w-[75%] break-words"
       >
-        Dia {{ i + 1 }}: {{ day }}
+        <markdown [data]="msg.content"></markdown>
       </div>
+      <span class="text-2xl" *ngIf="msg.role === 'user'">👤</span>
     </div>
 
-    <!-- Mock resposta do usuário -->
-    <div class="flex gap-2 justify-end items-start">
+    <div *ngIf="loading" class="flex gap-2 items-start animate-pulse">
+      <span class="text-2xl">✈️</span>
       <div
-        class="bg-purple-600 text-white px-4 py-2 rounded-2xl shadow-sm max-w-[75%]"
+        class="bg-white/80 text-gray-900 px-4 py-2 rounded-2xl shadow-sm max-w-[75%]"
       >
-        Pode sugerir opções de restaurantes no primeiro dia?
-      </div>
-      <span class="text-2xl">🙋‍♀️</span>
-    </div>
-
-    <!-- Mock resposta do agente -->
-    <div class="flex gap-2 items-start">
-      <span class="text-2xl">🤖</span>
-      <div
-        class="bg-purple-50 px-4 py-2 rounded-2xl shadow-sm text-gray-800 max-w-[75%]"
-      >
-        Claro! Para o primeiro dia, recomendo experimentar a culinária local em
-        restaurantes como
-        <em>Exemplo A</em> e <em>Exemplo B</em>.
+        Um momento... estou preparando algumas sugestões para você!
       </div>
     </div>
   </section>
 
   <!-- Input de interação -->
-  <footer class="flex items-center gap-2">
+  <footer class="flex items-center gap-2 mt-2">
     <input
       type="text"
+      [(ngModel)]="userMessage"
+      (keyup.enter)="sendMessage()"
       placeholder="Digite sua mensagem..."
-      class="flex-1 border rounded-2xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
+      class="flex-1 bg-white/80 border-none rounded-2xl px-4 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder-blue-400"
     />
     <button
-      class="bg-purple-600 text-white px-4 py-2 rounded-2xl shadow hover:bg-purple-700 transition"
+      (click)="sendMessage()"
+      class="py-2 px-6 bg-blue-700 text-white rounded-2xl font-semibold text-lg hover:bg-blue-600 transition-all shadow-md hover:shadow-lg"
     >
       Enviar
     </button>
