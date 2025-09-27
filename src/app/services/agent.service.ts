@@ -1,15 +1,20 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Trip } from '../models/trip.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AgentService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+
+  sendTrip(trip: Trip): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/`, { trip });
+  }
 
   sendMessage(message: string): Observable<any> {
-    return this.http.post(environment.apiUrl, { message });
+    return this.http.post(`${environment.apiUrl}/`, { message });
   }
 }

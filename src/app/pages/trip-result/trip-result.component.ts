@@ -4,12 +4,14 @@ import {
   AfterViewChecked,
   ElementRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AgentService } from '../../services/agent.service';
 import { MarkdownModule } from 'ngx-markdown';
+import { Trip, ChatMessage } from '../../models/trip.model';
 
 @Component({
   selector: 'app-trip-result',
@@ -19,18 +21,16 @@ import { MarkdownModule } from 'ngx-markdown';
   styleUrls: ['./trip-result.component.scss'],
 })
 export class TripResultComponent implements OnInit, AfterViewChecked {
-  trip: any;
-  messages: Array<{ role: 'user' | 'agent'; content: string }> = [];
+  trip!: Trip;
+  messages: ChatMessage[] = [];
   userMessage: string = '';
   loading: boolean = false;
 
   @ViewChild('chatBox') chatBox!: ElementRef;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private agentService: AgentService
-  ) {}
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private agentService = inject(AgentService);
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -52,11 +52,7 @@ export class TripResultComponent implements OnInit, AfterViewChecked {
           user: params['user'],
           destination: params['destination'],
           days: Number(params['days']),
-          preferences: preferences,
-          itinerary: Array.from(
-            { length: Number(params['days']) },
-            (_, i) => `Atividade do dia ${i + 1}`
-          ),
+          preferences,
         };
 
         this.sendInitialPrompt();
@@ -78,39 +74,18 @@ export class TripResultComponent implements OnInit, AfterViewChecked {
   }
 
   sendInitialPrompt() {
-    const formattingInstructions = `
-      Responda apenas em **Markdown**, seguindo estas regras:
-      - Títulos por dia: \`### Dia 01\`, \`### Dia 02\`
-      - Subtítulos por turno: \`#### Manhã\`, \`#### Tarde\`, \`#### Noite\`
-      - Listas: \`- Atividade\`
-      - Negrito: \`**destaque**\`
-      - Links: \`[Nome do lugar](URL)\`
-      - Emojis para destacar atrações
-      `;
-
-    const initialPrompt = `
-      Olá, meu nome é ${this.trip.user}. 
-      Meu destino é ${this.trip.destination}, 
-      viajarei por ${this.trip.days} dias, 
-      e minhas preferências são: ${this.trip.preferences}. 
-      Por favor, forneça sugestões e dicas úteis.`;
-
-    this.messages.push({ role: 'user', content: initialPrompt });
     this.loading = true;
-
-    this.agentService
-      .sendMessage(`${initialPrompt}\n\n${formattingInstructions}`)
-      .subscribe({
-        next: (res) => {
-          const agentResponse = res.message || 'Sem resposta do agente';
-          this.messages.push({ role: 'agent', content: agentResponse });
-          this.loading = false;
-        },
-        error: (err) => {
-          console.error(err);
-          this.loading = false;
-        },
-      });
+    this.agentService.sendTrip(this.trip).subscribe({
+      next: (res) => {
+        const agentResponse = res.message || 'Sem resposta do agente';
+        this.messages.push({ role: 'agent', content: agentResponse });
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
+      },
+    });
   }
 
   sendMessage() {

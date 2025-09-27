@@ -1,23 +1,23 @@
 import { Routes } from '@angular/router';
-import { TripFormComponent } from './components/trip-form/trip-form.component';
-import { TripResultComponent } from './components/trip-result/trip-result.component';
-import { SobreComponent } from './pages/sobre/sobre.component';
+import { TripFormComponent } from './pages/trip-form/trip-form.component';
+import { TripResultComponent } from './pages/trip-result/trip-result.component';
+import { AboutComponent } from './pages/about/about.component';
 
 export const routes: Routes = [
   {
-    path: 'tripForm',
+    path: 'trip-form',
     component: TripFormComponent,
     data: { name: 'tripForm' },
   },
   {
-    path: 'resultado',
+    path: 'result',
     component: TripResultComponent,
     data: { name: 'tripResult' },
   },
   {
-    path: 'sobre',
-    component: SobreComponent,
-    data: { name: 'sobre' },
+    path: 'about',
+    component: AboutComponent,
+    data: { name: 'about' },
   },
-  { path: '', redirectTo: 'tripForm', pathMatch: 'full' },
+  { path: '', redirectTo: 'trip-form', pathMatch: 'full' },
 ];
