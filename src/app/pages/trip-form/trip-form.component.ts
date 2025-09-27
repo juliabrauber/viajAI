@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { Trip } from '../../models/trip.model';
 
 @Component({
   selector: 'app-trip-form',
@@ -11,13 +12,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./trip-form.component.scss'],
 })
 export class TripFormComponent {
-  trip = {
+  trip: Trip = {
     user: '',
     destination: '',
     days: 1,
-    preferencesList: [] as string[],
-    otherPreference: '',
+    preferences: [],
   };
+
+  otherPreference = '';
 
   allPreferences = [
     'Passeios e pontos turísticos',
@@ -27,16 +29,16 @@ export class TripFormComponent {
     'Outros',
   ];
 
-  constructor(private router: Router) {}
+  private router = inject(Router);
 
   onCheckboxChange(event: any) {
     const value = event.target.value;
     if (event.target.checked) {
-      if (!this.trip.preferencesList.includes(value)) {
-        this.trip.preferencesList.push(value);
+      if (!this.trip.preferences.includes(value)) {
+        this.trip.preferences.push(value);
       }
     } else {
-      this.trip.preferencesList = this.trip.preferencesList.filter(
+      this.trip.preferences = this.trip.preferences.filter(
         (pref) => pref !== value
       );
     }
@@ -48,7 +50,7 @@ export class TripFormComponent {
       return;
     }
 
-    if (this.trip.preferencesList.length === 0) {
+    if (this.trip.preferences.length === 0) {
       alert('Selecione pelo menos uma preferência ✨');
       return;
     }
@@ -57,18 +59,18 @@ export class TripFormComponent {
       this.trip.days = 1;
     }
 
-    let preferences = [...this.trip.preferencesList];
+    let preferences = [...this.trip.preferences];
     if (
       preferences.includes('Outros') &&
-      this.trip.otherPreference &&
-      this.trip.otherPreference.trim()
+      this.otherPreference &&
+      this.otherPreference.trim()
     ) {
       preferences = preferences.map((p) =>
-        p === 'Outros' ? this.trip.otherPreference.trim() : p
+        p === 'Outros' ? this.otherPreference.trim() : p
       );
     }
 
-    this.router.navigate(['/resultado'], {
+    this.router.navigate(['/result'], {
       queryParams: {
         user: this.trip.user,
         destination: this.trip.destination,

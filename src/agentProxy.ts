@@ -1,5 +1,6 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
+import { formattingInstructions } from './config/formattingRules';
 
 dotenv.config();
 
@@ -35,9 +36,31 @@ async function getAccessToken(): Promise<string> {
   return data.access_token;
 }
 
-router.post('/', async (req, res) => {
+router.post('/', async (req: Request, res: Response) => {
   try {
     const token = await getAccessToken();
+
+    let userMessage = '';
+
+    if (req.body.trip) {
+      const trip = req.body.trip;
+
+      const initialPrompt = `
+        Olá, meu nome é ${trip.user}. 
+        Meu destino é ${trip.destination}, 
+        viajarei por ${trip.days} dias, 
+        e minhas preferências são: ${trip.preferences}. 
+        Por favor, forneça sugestões e dicas úteis.
+      `;
+
+      userMessage = `${initialPrompt}\n\n${formattingInstructions}`;
+    } else if (req.body.message) {
+      userMessage = req.body.message;
+    } else {
+      return res
+        .status(400)
+        .json({ error: 'Body inválido: informe trip ou message' });
+    }
 
     const agentRes = await fetch(
       `https://genai-inference-app.stackspot.com/v1/agent/${AGENT_ID}/chat`,
@@ -50,7 +73,7 @@ router.post('/', async (req, res) => {
         },
         body: JSON.stringify({
           streaming: true,
-          user_prompt: req.body.message,
+          user_prompt: userMessage,
           stackspot_knowledge: false,
           return_ks_in_response: true,
         }),
@@ -81,9 +104,11 @@ router.post('/', async (req, res) => {
     }
 
     res.json({ message: fullMessage });
+    return;
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Erro ao se comunicar com o agente' });
+    return;
   }
 });
 
