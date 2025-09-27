@@ -13,6 +13,6 @@ export class AboutComponent {
   private router = inject(Router);
 
   startNow() {
-    this.router.navigate(['/tripForm']);
+    this.router.navigate(['/trip-form']);
   }
 }
