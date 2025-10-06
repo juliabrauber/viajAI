@@ -1,23 +1,37 @@
 <header class="bg-white text-gray-900 py-4 shadow-md">
-  <div class="max-w-6xl mx-auto flex justify-between items-center px-6">
+  <div
+    class="max-w-6xl mx-auto flex justify-between items-center px-4 sm:px-6 w-full"
+  >
     <div
-      class="flex-1 flex items-baseline bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 rounded-xl px-6 py-2 max-w-[85%]"
+      class="flex-1 flex items-baseline bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 rounded-xl px-4 py-2 max-w-full overflow-hidden"
     >
       <a
-        routerLink="/"
-        class="text-3xl font-extrabold tracking-tight text-white"
+        routerLink="/about"
+        class="text-2xl md:text-3xl font-extrabold tracking-tight text-white truncate"
       >
         🌍 ViajAI
       </a>
-      <a
-        routerLink="/about"
-        class="text-base font-normal text-white border-b-2 border-transparent hover:border-white transition-all duration-300 ml-6"
-      >
-        Sobre
-      </a>
     </div>
-
-    <nav class="flex items-center gap-4 ml-4">
+    <button
+      class="md:hidden ml-2 text-blue-700 focus:outline-none"
+      onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"
+        />
+      </svg>
+    </button>
+    <nav class="hidden md:flex items-center gap-4 ml-4">
       <a
         routerLink="/criar-conta"
         class="px-3 py-2 text-sm text-blue-500 bg-white rounded-lg font-medium border border-blue-500 hover:bg-blue-50 transition-all duration-300"
@@ -32,8 +46,22 @@
       </a>
     </nav>
   </div>
+  <div id="mobile-menu" class="md:hidden hidden px-4 mt-2">
+    <a
+      routerLink="/criar-conta"
+      class="block w-full text-center px-3 py-2 text-sm text-blue-500 bg-white rounded-lg font-medium border border-blue-500 hover:bg-blue-50 transition-all duration-300 mb-2"
+    >
+      Criar Conta
+    </a>
+    <a
+      routerLink="/acessar-conta"
+      class="block w-full text-center px-3 py-2 text-sm text-white bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 rounded-lg font-medium hover:brightness-110 transition-all duration-300"
+    >
+      Acessar Conta
+    </a>
+  </div>
 </header>
 
-<main class="p-6 min-h-screen relative bg-gray-50">
+<main class="p-6 min-h-screen relative bg-gray-50 overflow-x-hidden">
   <router-outlet></router-outlet>
 </main>
