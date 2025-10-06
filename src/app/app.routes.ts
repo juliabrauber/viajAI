@@ -19,5 +19,5 @@ export const routes: Routes = [
     component: AboutComponent,
     data: { name: 'about' },
   },
-  { path: '', redirectTo: 'trip-form', pathMatch: 'full' },
+  { path: '', redirectTo: 'about', pathMatch: 'full' },
 ];
