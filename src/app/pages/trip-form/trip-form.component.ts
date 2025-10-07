@@ -12,6 +12,8 @@ import { Trip } from '../../models/trip.model';
   styleUrls: ['./trip-form.component.scss'],
 })
 export class TripFormComponent {
+  chatOpen = false;
+  whatsAppLink = 'link';
   trip: Trip = {
     user: '',
     destination: '',
@@ -78,5 +80,12 @@ export class TripFormComponent {
         preferences: preferences,
       },
     });
+  }
+
+  toggleChat() {
+    this.chatOpen = !this.chatOpen;
+  }
+  openWhatsApp() {
+    window.open(this.whatsAppLink, '_blank');
   }
 }
