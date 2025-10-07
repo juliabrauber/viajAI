@@ -108,4 +108,31 @@ export class TripResultComponent implements OnInit, AfterViewChecked {
       },
     });
   }
+
+  shareViaWhatsApp(content: string) {
+    const whatsappText = this.convertMarkdownToWhatsApp(content);
+    const encodedMessage = encodeURIComponent(whatsappText);
+    const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+    window.open(whatsappUrl, '_blank');
+  }
+
+  private convertMarkdownToWhatsApp(text: string): string {
+    return text
+      .replace(
+        /([\u{1F300}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}])/gu,
+        ''
+      )
+      .replace(/<[^>]*>/g, '')
+      .replace(/!\[.*?\]\(.*?\)/g, '')
+      .replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '$1 ($2)')
+      .replace(/^\*(Dia \d{2}|\w+)\*/gm, '*$1*')
+      .replace(/\*\*(.*?)\*\*/g, '*$1*')
+      .replace(/_(.*?)_/g, '_$1_')
+      .replace(/^\s*-\s+/gm, '• ')
+      .replace(/~~(.*?)~~/g, '~$1~')
+      .replace(/[\u2013\u2014]/g, '-')
+      .replace(/\u2026/g, '...')
+      .replace(/[\u2018\u2019]/g, "'")
+      .replace(/[\u201C\u201D]/g, '"');
+  }
 }

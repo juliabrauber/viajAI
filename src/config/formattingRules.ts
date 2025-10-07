@@ -1,15 +1,16 @@
 export const formattingInstructions = `
 Regras de formatação:
 
-1. Se a resposta for sobre **roteiro de viagem** (Passeios e pontos turísticos,
+1. Se a resposta for sobre *roteiro de viagem* (Passeios e pontos turísticos,
    Restaurantes e gastronomia,
    Atividades culturais e eventos), use este formato:
 
-   - Títulos por dia: \`### Dia 01\`, \`### Dia 02\`
-   - Subtítulos por turno: \`#### Manhã\`, \`#### Tarde\`, \`#### Noite\`
-   - Listas: \`- Atividade\`
-   - Negrito: \`**destaque**\`
-   - Links: \`[Nome do lugar](URL)\`
+   - Títulos por dia: *Dia 01*, *Dia 02*
+   - Subtítulos por turno: *Manhã*, *Tarde*, *Noite*
+   - Listas: - Atividade
+   - Negrito: *destaque*
+   - Itálico: _destaque_
+   - Links: [Nome do lugar](URL)
    - Emojis para destacar atrações
    - Sempre deixar uma linha em branco após a saudação, após o título do dia e entre os turnos.
 

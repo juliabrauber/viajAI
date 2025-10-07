@@ -75,3 +75,45 @@
     </button>
   </form>
 </div>
+
+<div
+  class="flex flex-col items-end font-sans pt-4 md:fixed md:bottom-5 md:right-5 md:pt-0"
+>
+  <div
+    class="bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 text-white flex flex-col items-start p-3 rounded-2xl shadow-lg cursor-pointer w-72"
+    (click)="chatOpen = !chatOpen"
+  >
+    <div class="flex items-center gap-2 w-full justify-between">
+      <div class="flex items-center gap-2">
+        <img src="agenteMaster.png" alt="Avatar" class="w-8 h-8 rounded-full" />
+        <span class="font-semibold text-sm">Atendente Virtual</span>
+      </div>
+      <button
+        class="font-bold text-xl"
+        (click)="chatOpen = false; $event.stopPropagation()"
+      >
+        ×
+      </button>
+    </div>
+    <div class="mt-2 flex flex-col gap-1 text-xs">
+      <span>Olá! 👋 Estou aqui para ajudar.</span>
+      <span>Você pode me contatar pelo WhatsApp:</span>
+      <ul class="list-disc list-inside ml-4">
+        <li>Através do QR Code abaixo</li>
+        <li>Ou clicando no botão "Abrir WhatsApp"</li>
+      </ul>
+    </div>
+    <div
+      *ngIf="chatOpen"
+      class="mt-2 w-full max-w-xs bg-white shadow-xl rounded-2xl overflow-hidden flex flex-col items-center p-4"
+    >
+      <img src="qrCodeMock.png" alt="QR Code WhatsApp" class="w-32 h-32" />
+      <button
+        (click)="openWhatsApp()"
+        class="bg-green-500 text-white text-center text-sm py-1 px-3 rounded-lg hover:bg-green-600 transition mt-4 w-full"
+      >
+        Abrir WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
