@@ -1,4 +1,6 @@
-<header class="bg-white text-gray-900 py-4 shadow-md">
+<header
+  class="bg-white text-gray-900 dark:bg-gray-800 dark:text-white py-4 shadow-md"
+>
   <div
     class="max-w-6xl mx-auto flex justify-between items-center px-4 sm:px-6 w-full"
   >
@@ -44,12 +46,18 @@
       >
         Acessar Conta
       </a>
+      <button
+        (click)="toggleDarkMode()"
+        class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 px-4 py-2 rounded-xl shadow hover:shadow-md transition-all text-sm"
+      >
+        {{ isDarkMode ? "☀️ Claro" : "🌙 Escuro" }}
+      </button>
     </nav>
   </div>
-  <div id="mobile-menu" class="md:hidden hidden px-4 mt-2">
+  <div id="mobile-menu" class="md:hidden hidden px-4 mt-2 space-y-2">
     <a
       routerLink="/criar-conta"
-      class="block w-full text-center px-3 py-2 text-sm text-blue-500 bg-white rounded-lg font-medium border border-blue-500 hover:bg-blue-50 transition-all duration-300 mb-2"
+      class="block w-full text-center px-3 py-2 text-sm text-blue-500 bg-white rounded-lg font-medium border border-blue-500 hover:bg-blue-50 transition-all duration-300"
     >
       Criar Conta
     </a>
@@ -59,9 +67,15 @@
     >
       Acessar Conta
     </a>
+    <button
+      (click)="toggleDarkMode()"
+      class="block w-full text-center bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 px-4 py-2 rounded-xl shadow hover:shadow-md transition-all text-sm"
+    >
+      {{ isDarkMode ? "☀️ Claro" : "🌙 Escuro" }}
+    </button>
   </div>
 </header>
 
-<main class="p-6 min-h-screen relative bg-gray-50 overflow-x-hidden">
+<main class="p-6 min-h-screen bg-gray-50 dark:bg-gray-900">
   <router-outlet></router-outlet>
 </main>

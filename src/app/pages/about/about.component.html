@@ -1,56 +1,65 @@
 <div class="flex justify-center pt-4 px-4">
   <div
-    class="w-full max-w-4xl bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl p-10 space-y-8 text-center"
+    class="w-full max-w-4xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg rounded-3xl shadow-2xl p-10 space-y-8 text-center"
   >
     <div class="flex flex-col items-center gap-4">
       <div class="text-6xl animate-bounce">🌍</div>
-      <h1 class="text-3xl font-extrabold text-blue-900">
+      <h1 class="text-3xl font-extrabold text-blue-900 dark:text-blue-300">
         Sobre o agente ViajAI
       </h1>
-      <p class="text-blue-700 max-w-xl">
+
+      <p class="text-blue-700 dark:text-blue-200 max-w-xl">
         Transforme suas ideias em roteiros completos! Nosso Agente de IA cria
         viagens personalizadas com base no destino, tempo de viagem e suas
         preferências, sugerindo passeios, restaurantes, atividades culturais e
         muito mais.
       </p>
     </div>
+
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div
-        class="bg-white rounded-2xl shadow-lg p-6 hover:scale-105 transition transform"
+        class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 hover:scale-105 transition transform"
       >
         <div class="text-4xl mb-2">🗺️</div>
-        <h3 class="font-semibold text-blue-900 mb-1">
+        <h3 class="font-semibold text-blue-900 mb-1 dark:text-blue-200">
           Roteiros Personalizados
         </h3>
-        <p class="text-gray-600 text-sm">
+        <p class="text-gray-700 dark:text-gray-300 text-sm">
           Receba sugestões que combinam exatamente com seu perfil e preferências
           de viagem.
         </p>
       </div>
+
       <div
-        class="bg-white rounded-2xl shadow-lg p-6 hover:scale-105 transition transform"
+        class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 hover:scale-105 transition transform"
       >
         <div class="text-4xl mb-2">🍴</div>
-        <h3 class="font-semibold text-blue-900 mb-1">Gastronomia e Cultura</h3>
-        <p class="text-gray-600 text-sm">
+        <h3 class="font-semibold text-blue-900 mb-1 dark:text-blue-200">
+          Gastronomia e Cultura
+        </h3>
+        <p class="text-gray-700 dark:text-gray-300 text-sm">
           Descubra restaurantes, cafés e experiências culturais que fazem a
           diferença na sua viagem.
         </p>
       </div>
+
       <div
-        class="bg-white rounded-2xl shadow-lg p-6 hover:scale-105 transition transform"
+        class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 hover:scale-105 transition transform"
       >
         <div class="text-4xl mb-2">🚀</div>
-        <h3 class="font-semibold text-blue-900 mb-1">Fácil e Rápido</h3>
-        <p class="text-gray-600 text-sm">
+        <h3 class="font-semibold text-blue-900 mb-1 dark:text-blue-200">
+          Fácil e Rápido
+        </h3>
+        <p class="text-gray-700 dark:text-gray-300 text-sm">
           Em poucos cliques você tem um roteiro completo, pronto para usar e
           compartilhar.
         </p>
       </div>
     </div>
+
     <button
       (click)="startNow()"
-      class="mt-6 px-8 py-4 bg-gradient-to-r from-blue-700 to-blue-500 text-white font-bold rounded-2xl shadow-lg hover:scale-105 hover:shadow-xl transition transform"
+      class="mt-6 px-8 py-4 bg-gradient-to-r from-blue-700 to-blue-500 dark:from-blue-600 dark:to-blue-400 text-white font-bold rounded-2xl shadow-lg hover:scale-105 hover:shadow-xl transition transform"
     >
       Iniciar Agora
     </button>
