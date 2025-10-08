@@ -3,43 +3,78 @@
   class="max-w-4xl mx-auto mt-4 flex flex-col h-[calc(100vh-10rem)] space-y-4"
 >
   <h2
-    class="text-xl font-medium text-blue-800 flex items-center gap-2 px-2 py-1"
+    role="heading"
+    aria-level="2"
+    class="text-xl font-medium text-blue-800 dark:text-blue-300 flex items-center gap-2 px-2 py-1"
   >
-    🗺️ Planejamento para {{ trip.destination }}
+    <span aria-hidden="true">🗺️</span>
+    Planejamento para {{ trip.destination }}
   </h2>
   <section
     class="flex-1 flex flex-col gap-4 p-4 bg-transparent overflow-y-auto"
+    aria-live="polite"
+    aria-label="Mensagens da conversa"
   >
     <div
       *ngFor="let msg of messages"
       class="flex gap-2 items-start"
       [ngClass]="{ 'justify-end': msg.role === 'user' }"
+      role="group"
+      [attr.aria-label]="
+        msg.role === 'agent' ? 'Mensagem do agente de viagens' : 'Sua mensagem'
+      "
     >
-      <span class="text-2xl" *ngIf="msg.role === 'agent'">🤖</span>
+      <span class="text-2xl" *ngIf="msg.role === 'agent'" aria-hidden="true"
+        >🤖</span
+      >
       <div
         [ngClass]="{
-          'bg-white/80 text-gray-900': msg.role === 'agent',
-          'bg-gradient-to-br from-blue-100/70 to-blue-50/60 text-blue-900':
+          'bg-white/80 text-gray-900 dark:bg-gray-800 dark:text-gray-100':
+            msg.role === 'agent',
+          'bg-gradient-to-br from-blue-100/70 to-blue-50/60 dark:from-gray-700/70 dark:to-gray-800/60 text-blue-900 dark:text-blue-200':
             msg.role === 'user'
         }"
         class="px-4 py-2 rounded-2xl shadow-sm max-w-[75%] break-words"
       >
         <markdown [data]="msg.content"></markdown>
-        <div *ngIf="msg.role === 'agent'" class="flex justify-end mt-2 text-sm">
+        <div
+          *ngIf="msg.role === 'agent'"
+          class="flex justify-end mt-2 text-sm gap-2"
+        >
           <button
             (click)="shareViaWhatsApp(msg.content)"
-            class="bg-green-500 text-white py-1 px-3 rounded-md hover:underline text-xs"
+            class="bg-green-500 dark:bg-green-600 text-white py-1 px-3 rounded-md hover:underline text-xs"
+            [attr.aria-label]="
+              'Compartilhar resposta no WhatsApp sobre ' + trip.destination
+            "
           >
             💬 Compartilhar no WhatsApp
           </button>
+          <button
+            (click)="toggleSpeech(msg.content)"
+            class="bg-blue-500 dark:bg-blue-600 text-white py-1 px-3 rounded-md hover:bg-blue-600 dark:hover:bg-blue-500 text-xs flex items-center gap-1"
+            [attr.aria-label]="
+              isSpeaking
+                ? 'Parar leitura da resposta do agente'
+                : 'Ouvir resposta do agente sobre ' + trip.destination
+            "
+            [title]="isSpeaking ? 'Parar leitura' : 'Ouvir resposta do agente'"
+          >
+            <span *ngIf="!isSpeaking" aria-hidden="true">🔊 Ouvir</span>
+            <span *ngIf="isSpeaking" aria-hidden="true">⏹️ Parar</span>
+          </button>
         </div>
       </div>
-      <span class="text-2xl" *ngIf="msg.role === 'user'">👤</span>
+      <span class="text-2xl" *ngIf="msg.role === 'user'" aria-hidden="true"
+        >👤</span
+      >
     </div>
     <div *ngIf="loading" class="flex gap-2 items-start animate-pulse">
-      <span class="text-2xl">✈️</span>
+      <span class="text-2xl" aria-hidden="true">✈️</span>
       <div
-        class="bg-white/80 text-gray-900 px-4 py-2 rounded-2xl shadow-sm max-w-[75%]"
+        class="bg-white/80 dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-4 py-2 rounded-2xl shadow-sm max-w-[75%]"
+        role="status"
+        aria-live="assertive"
       >
         Um momento... estou preparando algumas sugestões para você!
       </div>
@@ -51,11 +86,13 @@
       [(ngModel)]="userMessage"
       (keyup.enter)="sendMessage()"
       placeholder="Digite sua mensagem..."
-      class="flex-1 bg-white/80 border-none rounded-2xl px-4 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder-blue-400"
+      aria-label="Digite sua mensagem e pressione Enter para enviar"
+      class="flex-1 bg-white/80 dark:bg-gray-800 border border-blue-200 dark:border-gray-700 rounded-2xl px-4 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-400 placeholder-blue-400 dark:placeholder-blue-200 text-gray-900 dark:text-gray-100"
     />
     <button
       (click)="sendMessage()"
-      class="py-2 px-6 bg-blue-700 text-white rounded-2xl font-semibold text-lg hover:bg-blue-600 transition-all shadow-md hover:shadow-lg"
+      class="py-2 px-6 bg-blue-700 dark:bg-blue-600 text-white rounded-2xl font-semibold text-lg hover:bg-blue-600 dark:hover:bg-blue-500 transition-all shadow-md hover:shadow-lg"
+      aria-label="Enviar mensagem"
     >
       Enviar
     </button>

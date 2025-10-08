@@ -25,6 +25,7 @@ export class TripResultComponent implements OnInit, AfterViewChecked {
   messages: ChatMessage[] = [];
   userMessage: string = '';
   loading: boolean = false;
+  isSpeaking = false;
 
   @ViewChild('chatBox') chatBox!: ElementRef;
 
@@ -134,5 +135,76 @@ export class TripResultComponent implements OnInit, AfterViewChecked {
       .replace(/\u2026/g, '...')
       .replace(/[\u2018\u2019]/g, "'")
       .replace(/[\u201C\u201D]/g, '"');
+  }
+
+  toggleSpeech(text: string): void {
+    if (!('speechSynthesis' in window)) {
+      alert('Seu navegador não suporta leitura em voz alta.');
+      return;
+    }
+
+    if (this.isSpeaking) {
+      this.stopSpeaking();
+    } else {
+      this.speakMessage(text);
+    }
+  }
+
+  private stripMarkdown(markdown: string): string {
+    return markdown
+      .replace(/```[\s\S]*?```/g, '')
+      .replace(/`([^`]*)`/g, '$1')
+      .replace(/!\[.*?\]\(.*?\)/g, '')
+      .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+      .replace(/#+\s?/g, '')
+      .replace(/\*\*(.*?)\*\*/g, '$1')
+      .replace(/\*(.*?)\*/g, '$1')
+      .replace(/_(.*?)_/g, '$1')
+      .replace(/>\s?/g, '')
+      .replace(/[-*]\s+/g, '')
+      .replace(/\r?\n|\r/g, ' ')
+      .replace(/\s{2,}/g, ' ')
+      .trim();
+  }
+
+  speakMessage(text: string): void {
+    window.speechSynthesis.cancel();
+
+    const cleanText = this.stripMarkdown(text);
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'pt-BR';
+    utterance.rate = 1.5;
+    utterance.pitch = 1.2;
+
+    const voices = window.speechSynthesis.getVoices();
+    const ptFemaleVoice =
+      voices.find(
+        (v) =>
+          (v.lang === 'pt-BR' || v.lang.startsWith('pt')) &&
+          /female|mulher|brasil|brasileira/i.test(v.name)
+      ) ||
+      voices.find((v) => v.lang === 'pt-BR') ||
+      voices.find((v) => v.lang.startsWith('pt'));
+
+    if (ptFemaleVoice) {
+      utterance.voice = ptFemaleVoice;
+      console.log('Usando voz:', ptFemaleVoice.name);
+    } else {
+      console.warn('Nenhuma voz feminina pt-BR encontrada. Usando padrão.');
+    }
+
+    this.isSpeaking = true;
+    window.speechSynthesis.speak(utterance);
+    utterance.onend = () => {
+      this.isSpeaking = false;
+    };
+  }
+
+  stopSpeaking(): void {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      this.isSpeaking = false;
+    }
   }
 }

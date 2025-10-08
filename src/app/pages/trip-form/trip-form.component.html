@@ -1,50 +1,102 @@
 <div
-  class="max-w-3xl mx-auto p-8 bg-gradient-to-br from-blue-100/70 to-purple-50/60 backdrop-blur-lg shadow-xl rounded-3xl space-y-6"
+  class="max-w-3xl mx-auto p-8 bg-gradient-to-br from-blue-100/70 to-purple-50/60 dark:from-gray-800/70 dark:to-gray-900/60 backdrop-blur-lg shadow-xl rounded-3xl space-y-6"
+  role="form"
+  aria-label="Formulário de planejamento de viagem"
 >
-  <h2 class="text-2xl font-semibold text-blue-900 flex items-center gap-2">
+  <h2
+    class="text-2xl font-semibold text-blue-900 dark:text-blue-300 flex items-center gap-2"
+    id="form-title"
+  >
     ✈️ Planeje sua Viagem
   </h2>
-  <form (ngSubmit)="generateTrip()" class="space-y-5">
+
+  <form
+    (ngSubmit)="generateTrip()"
+    class="space-y-5"
+    aria-labelledby="form-title"
+  >
     <div class="flex flex-col">
-      <label class="text-blue-900 font-semibold mb-2">Seu nome ...</label>
-      <input
-        type="text"
-        [(ngModel)]="trip.user"
-        name="user"
-        placeholder="Ex: Paris"
-        class="w-full py-2 px-4 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-300 focus:border-blue-400 outline-none transition"
-      />
-    </div>
-    <div class="flex flex-col">
-      <label class="text-blue-900 font-semibold mb-2"
-        >Destino da viagem ...</label
+      <label
+        for="user"
+        class="text-blue-900 dark:text-blue-200 font-semibold mb-2"
       >
+        Seu nome
+      </label>
       <input
+        id="user"
         type="text"
-        [(ngModel)]="trip.destination"
-        name="destination"
-        placeholder="Ex: Paris"
-        class="w-full py-2 px-4 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-300 focus:border-blue-400 outline-none transition"
+        name="user"
+        [(ngModel)]="trip.user"
+        placeholder="Ex: Maria"
+        aria-required="true"
+        aria-describedby="user-help"
+        class="w-full py-2 px-4 border border-gray-200 dark:border-gray-700 rounded-2xl focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-400 focus:border-blue-400 dark:focus:border-blue-300 outline-none transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
       />
+      <small id="user-help" class="text-gray-600 dark:text-gray-400 text-sm">
+        Digite seu primeiro nome.
+      </small>
     </div>
     <div class="flex flex-col">
-      <label class="text-blue-900 font-semibold mb-2">Duração (dias)</label>
+      <label
+        for="destination"
+        class="text-blue-900 dark:text-blue-200 font-semibold mb-2"
+      >
+        Destino da viagem
+      </label>
       <input
+        id="destination"
+        type="text"
+        name="destination"
+        [(ngModel)]="trip.destination"
+        placeholder="Ex: Paris"
+        aria-required="true"
+        aria-describedby="destination-help"
+        class="w-full py-2 px-4 border border-gray-200 dark:border-gray-700 rounded-2xl focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-400 focus:border-blue-400 dark:focus:border-blue-300 outline-none transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+      />
+      <small
+        id="destination-help"
+        class="text-gray-600 dark:text-gray-400 text-sm"
+      >
+        Informe o nome da cidade ou país que deseja visitar.
+      </small>
+    </div>
+    <div class="flex flex-col">
+      <label
+        for="days"
+        class="text-blue-900 dark:text-blue-200 font-semibold mb-2"
+      >
+        Duração (dias)
+      </label>
+      <input
+        id="days"
         type="number"
-        [(ngModel)]="trip.days"
         name="days"
+        [(ngModel)]="trip.days"
         placeholder="Ex: 7"
         min="1"
-        class="w-full py-2 px-4 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-300 focus:border-blue-400 outline-none transition"
+        aria-required="true"
+        aria-describedby="days-help"
+        class="w-full py-2 px-4 border border-gray-200 dark:border-gray-700 rounded-2xl focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-400 focus:border-blue-400 dark:focus:border-blue-300 outline-none transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
       />
+      <small id="days-help" class="text-gray-600 dark:text-gray-400 text-sm">
+        Quantos dias durará a viagem?
+      </small>
     </div>
     <div class="flex flex-col">
-      <label class="text-blue-900 font-semibold mb-2"
-        >Selecione suas preferências</label
+      <label
+        for="preferences"
+        class="text-blue-900 dark:text-blue-200 font-semibold mb-2"
       >
-      <div class="flex flex-wrap gap-4">
+        Selecione suas preferências
+      </label>
+      <div
+        id="preferences"
+        class="flex flex-wrap gap-4"
+        role="group"
+        aria-label="Preferências de viagem"
+      >
         <label
-          class="flex items-center gap-2 text-blue-800"
+          class="flex items-center gap-2 text-blue-800 dark:text-blue-300"
           *ngFor="let pref of allPreferences"
         >
           <input
@@ -57,44 +109,65 @@
           {{ pref }}
         </label>
       </div>
+
       <div *ngIf="trip.preferences.includes('Outros')" class="mt-2">
+        <label
+          for="otherPreference"
+          class="text-blue-900 dark:text-blue-200 font-semibold mb-1"
+        >
+          Descreva sua preferência
+        </label>
         <input
+          id="otherPreference"
           type="text"
-          [(ngModel)]="otherPreference"
           name="otherPreference"
+          [(ngModel)]="otherPreference"
           placeholder="Digite sua preferência..."
-          class="w-full py-2 px-4 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-300 focus:border-blue-400 outline-none transition"
+          class="w-full py-2 px-4 border border-gray-200 dark:border-gray-700 rounded-2xl focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-400 focus:border-blue-400 dark:focus:border-blue-300 outline-none transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
         />
       </div>
     </div>
     <button
       type="submit"
-      class="py-3 px-8 bg-blue-700 text-white rounded-2xl font-semibold text-lg hover:bg-blue-600 transition-all shadow-md hover:shadow-lg mx-auto block min-w-[180px]"
+      class="py-3 px-8 bg-blue-700 dark:bg-blue-600 text-white rounded-2xl font-semibold text-lg hover:bg-blue-600 dark:hover:bg-blue-500 transition-all shadow-md hover:shadow-lg mx-auto block min-w-[180px] focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-400"
     >
       Gerar sugestões 🚀
     </button>
   </form>
 </div>
-
 <div
   class="flex flex-col items-end font-sans pt-4 md:fixed md:bottom-5 md:right-5 md:pt-0"
+  aria-live="polite"
 >
   <div
-    class="bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 text-white flex flex-col items-start p-3 rounded-2xl shadow-lg cursor-pointer w-72"
+    role="button"
+    tabindex="0"
+    [attr.aria-expanded]="chatOpen"
+    aria-controls="chat-content"
+    aria-label="Abrir ou fechar chat com atendente virtual"
     (click)="chatOpen = !chatOpen"
+    (keyup.enter)="chatOpen = !chatOpen"
+    class="bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 text-white flex flex-col items-start p-3 rounded-2xl shadow-lg cursor-pointer w-72 focus:ring-4 focus:ring-blue-300"
   >
     <div class="flex items-center gap-2 w-full justify-between">
       <div class="flex items-center gap-2">
-        <img src="agenteMaster.png" alt="Avatar" class="w-8 h-8 rounded-full" />
+        <img
+          src="agenteMaster.png"
+          alt="Avatar do atendente virtual"
+          class="w-8 h-8 rounded-full"
+        />
         <span class="font-semibold text-sm">Atendente Virtual</span>
       </div>
       <button
-        class="font-bold text-xl"
+        type="button"
+        class="font-bold text-xl focus:outline-none focus:ring-2 focus:ring-white rounded"
         (click)="chatOpen = false; $event.stopPropagation()"
+        aria-label="Fechar chat"
       >
         ×
       </button>
     </div>
+
     <div class="mt-2 flex flex-col gap-1 text-xs">
       <span>Olá! 👋 Estou aqui para ajudar.</span>
       <span>Você pode me contatar pelo WhatsApp:</span>
@@ -105,12 +178,19 @@
     </div>
     <div
       *ngIf="chatOpen"
-      class="mt-2 w-full max-w-xs bg-white shadow-xl rounded-2xl overflow-hidden flex flex-col items-center p-4"
+      id="chat-content"
+      class="mt-2 w-full max-w-xs bg-white dark:bg-gray-800 shadow-xl rounded-2xl overflow-hidden flex flex-col items-center p-4"
     >
-      <img src="qrCodeMock.png" alt="QR Code WhatsApp" class="w-32 h-32" />
+      <img
+        src="qrCodeMock.png"
+        alt="QR Code para abrir conversa no WhatsApp"
+        class="w-32 h-32"
+      />
       <button
+        type="button"
         (click)="openWhatsApp()"
-        class="bg-green-500 text-white text-center text-sm py-1 px-3 rounded-lg hover:bg-green-600 transition mt-4 w-full"
+        class="bg-green-500 hover:bg-green-600 text-white text-center text-sm py-1 px-3 rounded-lg transition mt-4 w-full focus:ring-4 focus:ring-green-300"
+        aria-label="Abrir conversa no WhatsApp"
       >
         Abrir WhatsApp
       </button>

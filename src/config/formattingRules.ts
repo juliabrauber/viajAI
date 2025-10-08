@@ -12,7 +12,12 @@ Regras de formatação:
    - Itálico: _destaque_
    - Links: [Nome do lugar](URL)
    - Emojis para destacar atrações
-   - Sempre deixar uma linha em branco após a saudação, após o título do dia e entre os turnos.
+   - **Sempre deixar:**
+     - Uma linha em branco após a saudação inicial
+     - Uma linha em branco após o título de cada dia
+     - Uma linha em branco entre os turnos (manhã/tarde/noite)
+
+     O formato deve manter **todas as linhas em branco** — não remova quebras de linha entre seções.
 
 2. Se a resposta for sobre **Emergências e dicas de segurança**, **não use o formato acima**.  
    - Responda em texto corrido, objetivo e claro.  
